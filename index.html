@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <link rel='stylesheet' href='./src/styles/general.css'>
+    <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>
+    <title>Pix</title>
+</head>
+<body>
+    <main>
+        <section class="section__header">
+            <div class="header__title">Pix</div>
+        </section>
+        <section class="section__searcher">
+            <div class="searcher__container">
+                <form>
+                    <div class="field input">
+                        <input type="text" placeholder="Busca algo...">
+                        <span id="searcher__clean"><i class="fas fa-times"></i></span>
+                    </div>
+                    <div class="field submit">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="section__pictures">
+            <div class="pictures__container"></div>
+            <div class="pictures__paginator"></div>
+        </section>
+    </main>
+</body>
+<script src='./src/scripts/app.js' type='module'></script>
+</html>
