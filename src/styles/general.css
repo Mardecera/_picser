@@ -36,7 +36,7 @@ section:first-child{
 }
 
 section:last-child{
-    padding-bottom: 5rem;
+    padding-bottom: 1rem;
 }
 
 button, a, #searcher__clean{
@@ -52,7 +52,7 @@ button, a, #searcher__clean{
 }
 
 .section__header .header__title{
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     text-align: center;
     color: var(--primary-color-light);
 }
@@ -148,10 +148,10 @@ button, a, #searcher__clean{
 
     .section__pictures .pictures__container .picture__item{
         width: 100%;
+        height: min-content;
     }
 
     .section__pictures .pictures__container .picture__item:hover{
-        /* outline: 2px solid var(--primary-color-light); */
         outline: 1px solid rgba(151, 151, 151, 0.1);
         box-shadow: 0 0 20px rgba(119, 144, 179, 0.5);
     }
@@ -160,6 +160,15 @@ button, a, #searcher__clean{
 .section__pictures .pictures__container .picture__item .picture__head,
 .section__pictures .pictures__container .picture__item .picture__content{
     width: 100%;
+}
+
+.section__pictures .pictures__container .picture__item .picture__content{
+    height: 100px;
+}
+
+.section__pictures .pictures__container .picture__item .picture__content img{
+    height: 100%;
+    object-fit: contain;
 }
 
 .section__pictures .pictures__container .picture__item{
@@ -254,8 +263,8 @@ button, a, #searcher__clean{
     justify-content: center;
     flex-wrap: wrap;
     gap: .5em;
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    margin-top: 2em;
+    margin-bottom: 1em;
 }
 
 .section__pictures .pictures__paginator button{
