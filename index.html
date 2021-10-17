@@ -4,10 +4,11 @@
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>PicSer</title>
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
     <link rel='stylesheet' href='./styles/general.css'>
     <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>
-    <title>PicSer</title>
+    <script src='./scripts/app.js' type='module' defer></script>
 </head>
 <body>
     <main>
@@ -32,6 +33,48 @@
             <div class="pictures__paginator"></div>
         </section>
     </main>
+    <template id="template__picture">
+        <div class="picture__item">
+            <div class="picture__head">
+                <div class="head__image__user">
+                    <img src="" alt="test" loading="lazy" decoding="async">
+                </div>
+                <div class="head__name__user"></div>
+            </div>
+            <div class="picture__content">
+                <img src="" alt="test" loading="lazy" decoding="async">
+            </div>
+            <div class="picture__info">
+                <div class="info__tags">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="info__views">
+                    <span><i class="far fa-eye"></i></span>
+                    <span class="content"></span>
+                </div>
+                <div class="info__likes">
+                    <span><i class="far fa-heart"></i></span>
+                    <span class="content"></span>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="template__sect_show">
+        <section class="section__show">
+            <div class="show__container">
+                <img loading="lazy" decoding="async" src="" alt="test">
+                <button class="btn__close">x</button>
+            </div>
+        </section>
+    </template>
+    <template id="template__loader">
+        <div class="loader">
+            <div class="lds-ellipsis">
+                <div></div><div></div><div></div><div></div>
+            </div>
+            <p>Searching 🔍...</p>
+        </div>
+    </template>
 </body>
-<script src='./scripts/app.js' type='module'></script>
+<!-- <script src='./scripts/app.js' type='module'></script> -->
 </html>
