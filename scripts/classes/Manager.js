@@ -1,6 +1,6 @@
-import { UI} from './Ui.js'
+import { UI } from './Ui.js'
 
-export class Manager extends UI{
+export class Manager extends UI {
     constructor() {
         super()
         this.key = '23627213-761d5f02de43cf41e724ec679'
@@ -10,15 +10,21 @@ export class Manager extends UI{
     }
 
     async query(textQuery = '') {
-        const url = `${this.api}?key=${this.key}&q=${textQuery}&per_page=${this.perPage}&page=${this.page}`
-        const request = await fetch(url)
-        const pictures = await request.json()
-        
-        this.showPictures(pictures.hits)
-        this.showPaginator(
-            this.createPaginator(pictures.totalHits),
-            textQuery
-        )
+        try {
+            this.showLoader()
+            const url = `${this.api}?key=${this.key}&q=${textQuery}&per_page=${this.perPage}&page=${this.page}`
+            const request = await fetch(url)
+            const pictures = await request.json()
+            this.quitLoader()
+
+            this.showPictures(pictures.hits)
+            this.showPaginator(
+                this.createPaginator(pictures.totalHits),
+                textQuery
+            )
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     async perPageQuery(textQuery = '', page = 1) {
@@ -29,7 +35,7 @@ export class Manager extends UI{
         this.showPictures(pictures.hits)
     }
 
-    * createPaginator(totalHits = 10) {
+    *createPaginator(totalHits = 10) {
         const pages = Math.ceil(totalHits / this.perPage)
 
         for (let i = 1; i <= pages; i++) yield i

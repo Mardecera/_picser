@@ -13,7 +13,7 @@ export class App {
                 event.preventDefault()
                 this.MANAGER.query(DOM.queryForm.value)
             })
-            DOM.buttonClean.addEventListener('click', () => {
+            DOM.buttonClean.addEventListener('click', (event) => {
                 event.preventDefault()
                 DOM.form.reset()
             })

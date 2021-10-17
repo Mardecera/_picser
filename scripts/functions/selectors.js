@@ -1,5 +1,5 @@
-const $ = query => document.querySelector(query)
-const $$ = query => document.querySelectorAll(query)
+const $ = (query) => document.querySelector(query)
+const $$ = (query) => document.querySelectorAll(query)
 
 const form = $('.section__searcher form')
 const queryForm = $('.section__searcher .input input')
@@ -18,5 +18,5 @@ export {
     buttonClean,
     fullImageContainer,
     sectionPictures,
-    main
+    main,
 }

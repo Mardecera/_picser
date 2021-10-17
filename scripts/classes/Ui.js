@@ -4,30 +4,65 @@ import * as FUNC from '../functions/functions.js'
 export class UI {
     showPictures(pictures = []) {
         this.cleanQueryContainer()
+        const fragment = document.createDocumentFragment()
+        const template = document.querySelector('#template__picture').content
+        const $template = (query) => template.querySelector(query)
+        const $$template = (query) => template.querySelectorAll(query)
 
-        pictures.forEach((picture) => {
-            DOM.queryContainer.appendChild(this.getPictureHTML(picture))
-        })
+        pictures.forEach(
+            ({
+                previewURL,
+                largeImageURL,
+                tags,
+                views,
+                likes,
+                user,
+                userImageURL,
+            }) => {
+                tags = tags.split(', ')
+                const url = userImageURL || './images/_profile_default.jpg'
+                $template('.head__image__user img').src = url
+                $template('.head__name__user').textContent = user
+                $template('.picture__content img').src = previewURL
+                $template('.info__views .content').textContent = views
+                $template('.info__likes .content').textContent = likes
+                $$template('.info__tags span')[0].textContent = `#${tags[0]}`
+                $$template('.info__tags span')[1].textContent = `#${tags[1]}`
+                $$template('.info__tags span')[2].textContent = `#${tags[2]}`
+
+                const clone = template.cloneNode(true)
+                clone.querySelector('.picture__content').onclick = () => {
+                    this.getPictureImageHTML(largeImageURL)
+                }
+                fragment.appendChild(clone)
+            }
+        )
+
+        DOM.queryContainer.appendChild(fragment)
     }
 
-    getPictureHTML({
-        previewURL,
-        largeImageURL,
-        tags,
-        views,
-        likes,
-        user,
-        userImageURL,
-    }) {
-        const pictureHTML = FUNC.createHTML({ clases: ['picture__item'] })
-        const pictureHead = this.getPictureHeadHTML(user, userImageURL)
-        const pictureImage = this.getPictureImageHTML(previewURL, largeImageURL)
-        const pictureInfo = this.getPictureInfoHTML(tags, views, likes)
+    getPictureImageHTML(largeImageURL) {
+        const template = document.querySelector('#template__sect_show').content
+        const $template = (query) => template.querySelector(query)
 
-        pictureHTML.appendChild(pictureHead)
-        pictureHTML.appendChild(pictureImage)
-        pictureHTML.appendChild(pictureInfo)
-        return pictureHTML
+        $template('.section__show img').src = largeImageURL
+
+        const clone = template.cloneNode(true)
+        clone.querySelector('.btn__close').onclick = (event) => {
+            event.target.parentNode.parentNode.remove()
+        }
+
+        DOM.main.appendChild(clone)
+    }
+
+    showLoader() {
+        const template = document.querySelector('#template__loader').content
+        const clone = template.cloneNode(true)
+        DOM.sectionPictures.appendChild(clone)
+    }
+
+    quitLoader() {
+        DOM.sectionPictures.querySelector('.loader').remove()
     }
 
     showPaginator(iterator, textQuery) {
@@ -39,12 +74,22 @@ export class UI {
             if (done) return
 
             buttonPageHTML.textContent = value
+            if (value == 1) buttonPageHTML.classList.add('active')
             buttonPageHTML.onclick = (_) => {
+                this.cleanActivePaginator()
                 this.perPageQuery(textQuery, value)
                 document.scrollingElement.scrollTop = 0
+                buttonPageHTML.classList.add('active')
             }
             DOM.queryPaginator.appendChild(buttonPageHTML)
         }
+    }
+
+    cleanActivePaginator() {
+        const buttons = document.querySelectorAll('.pictures__paginator button')
+        buttons.forEach((button) => {
+            button.classList.remove('active')
+        })
     }
 
     cleanQueryContainer() {
@@ -60,102 +105,5 @@ export class UI {
     cleanFullHDContainer() {
         while (DOM.fullImageContainer.firstChild)
             DOM.fullImageContainer.lastChild.remove()
-    }
-
-    getPictureHeadHTML(user, userImageURL) {
-        const url = userImageURL || './images/_profile_default.jpg'
-        const head = FUNC.createHTML({ clases: ['picture__head'] })
-        const imageUser = FUNC.createHTML({ clases: ['head__image__user'] })
-        const image = FUNC.createHTML({ type: 'img', url: url, alt: 'Test' })
-        const nameUser = FUNC.createHTML({
-            class: ['head__name__user'],
-            text: user,
-        })
-
-        imageUser.appendChild(image)
-        head.appendChild(imageUser)
-        head.appendChild(nameUser)
-        return head
-    }
-
-    getPictureImageHTML(previewURL, largeImageURL) {
-        const url = previewURL || './favicon.png'
-        const content = FUNC.createHTML({ clases: ['picture__content'] })
-        const image = FUNC.createHTML({ type: 'img', url: url, alt: 'Test' })
-
-        const section = FUNC.createHTML({
-            type: 'section',
-            clases: ['section__show'],
-        })
-        const sectionContainer = FUNC.createHTML({
-            clases: ['show__container'],
-        })
-        const imageFullHD = FUNC.createHTML({
-            type: 'img',
-            url: largeImageURL,
-            alt: 'tets',
-        })
-        const btnCloseImage = FUNC.createHTML({
-            type: 'button',
-            text: 'x',
-            clases: ['btn__close'],
-        })
-
-        btnCloseImage.onclick = (_) => {
-            section.remove()
-        }
-        content.onclick = (_) => {
-            sectionContainer.appendChild(imageFullHD)
-            sectionContainer.appendChild(btnCloseImage)
-            section.appendChild(sectionContainer)
-            DOM.main.appendChild(section)
-        }
-        content.appendChild(image)
-        return content
-    }
-    getPictureInfoHTML(tags, views, likes) {
-        const infoHTML = FUNC.createHTML({ clases: ['picture__info'] })
-        const tagsHTML = this.getTagsHTML(tags)
-        const viewsHTML = this.getViewsHTML(views)
-        const likesHTML = this.getLikesHTML(likes)
-
-        infoHTML.appendChild(tagsHTML)
-        infoHTML.appendChild(viewsHTML)
-        infoHTML.appendChild(likesHTML)
-        return infoHTML
-    }
-
-    getTagsHTML(tags) {
-        const content = FUNC.createHTML({ clases: ['info__tags'] })
-        tags.split(', ').forEach((tag) => {
-            const span = FUNC.createHTML({ type: 'span', text: `#${tag}` })
-            content.appendChild(span)
-        })
-
-        return content
-    }
-
-    getViewsHTML(views) {
-        const content = FUNC.createHTML({ clases: ['info__views'] })
-        const iconSpan = FUNC.createHTML({ type: 'span' })
-        const icon = FUNC.createHTML({ type: 'i', clases: ['far', 'fa-eye'] })
-        const viewsSpan = FUNC.createHTML({ type: 'span', text: views })
-
-        iconSpan.appendChild(icon)
-        content.appendChild(iconSpan)
-        content.appendChild(viewsSpan)
-        return content
-    }
-
-    getLikesHTML(likes) {
-        const content = FUNC.createHTML({ clases: ['info__likes'] })
-        const iconSpan = FUNC.createHTML({ type: 'span' })
-        const icon = FUNC.createHTML({ type: 'i', clases: ['far', 'fa-heart'] })
-        const viewsSpan = FUNC.createHTML({ type: 'span', text: likes })
-
-        iconSpan.appendChild(icon)
-        content.appendChild(iconSpan)
-        content.appendChild(viewsSpan)
-        return content
     }
 }
